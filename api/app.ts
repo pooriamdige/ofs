@@ -12,7 +12,8 @@ import path from 'path'
 import dotenv from 'dotenv'
 import { fileURLToPath } from 'url'
 import authRoutes from './routes/auth.js'
-import mt5Routes from './routes/mt5.js'
+import mt5Routes from './routes/mt5.js' // Can be used for user-facing account data
+import connectRoutes from './routes/connect.js'
 
 // for esm mode
 const __filename = fileURLToPath(import.meta.url)
@@ -31,7 +32,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }))
  * API Routes
  */
 app.use('/api/auth', authRoutes)
-app.use('/api/mt5', mt5Routes)
+app.use('/api/connect', connectRoutes) // S2S Connection
+app.use('/api/mt5', mt5Routes) // User Dashboard Data (e.g. /api/mt5/:login/summary)
 
 /**
  * health

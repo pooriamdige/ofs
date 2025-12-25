@@ -1,10 +1,26 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { auth, mt5 } from '@/services/api'
+import { useSearchParams } from 'react-router-dom'
 
 export default function Home() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [token, setToken] = useState(localStorage.getItem('token'))
   const [user, setUser] = useState<any>(null)
   const [mt5Data, setMt5Data] = useState<any>(null)
+  
+  // Check for token in URL (from WordPress Iframe)
+  useEffect(() => {
+    const urlToken = searchParams.get('token')
+    if (urlToken) {
+      localStorage.setItem('token', urlToken)
+      setToken(urlToken)
+      // Clean URL
+      setSearchParams({})
+      // Fetch user data if needed (optional)
+      // fetchUserData(urlToken)
+    }
+  }, [searchParams, setSearchParams])
+
   
   // Forms
   const [email, setEmail] = useState('')
